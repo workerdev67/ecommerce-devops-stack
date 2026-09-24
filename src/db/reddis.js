@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Fallback logic so it defaults to local Redis if env variable is missing
-const redisUrl = process.env.REDDIS_URL || process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+const redisUrl = process.env.REDDIS_UR || process.env.REDDIS_UR || 'redis://127.0.0.1:6379';
 
 const RedisClient = createClient({
   url: redisUrl
