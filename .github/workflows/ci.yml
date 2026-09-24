@@ -18,11 +18,11 @@ jobs:
                   - 6379:6379
 
         steps:
-          - name: Checkout Reposetry
-            uses: action/checkout@v4
+          - name: Checkout Repository
+            uses: actions/checkout@v4
 
           - name: Setup Node.js
-            uses: action/setup-node@v4
+            uses: actions/setup-node@v4
             with:
                 node-version: '22'
                 cahce: npm
