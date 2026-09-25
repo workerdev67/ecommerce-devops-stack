@@ -1,34 +1,31 @@
-name: Nodejs-Api-Learn
+name: Node js-Devops-learning
 
-'on':
-    push:
-        branches: ['feature/docker-setup', 'develop']
-    
-    pull_request:
-        branches: ['feature/docker-setup', 'develop']
+on:
+  push:
+    branches: ['feature/docker-setup', 'develop', 'main']
+  pull_request:
+    branches: ['feature/docker-setup', 'develop', 'main']
 
 jobs:
-    build-and-run:
-        runs-on: ubuntu-latest
+  build-and-test: # 👈 Job ID (Unique identifier)
+    name: devops-learning-ci # Job Name (GitHub UI par dikhai dega)
+    runs-on: ubuntu-latest   # Runner OS
 
-        services:
-            redis:
-                image: redis:alpine
-                ports: 
-                  - 6379:6379
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-        steps:
-          - name: Checkout Repository
-            uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Ya aapka Node.js version
+          cache: 'npm'
 
-          - name: Setup Node.js
-            uses: actions/setup-node@v4
-            with:
-                node-version: '22'
-                cahce: npm
+      - name: Install Dependencies
+        run: npm ci
 
-          - name: Install Dependencies
-            run: npm ci
+      - name: Check Code Syntax / Linter (Optional)
+        run: npm run lint --if-present
 
-          - name: Check Code Syntax & Build
-            run: node --check src/server.js
+      # - name: Run Unit Tests (Agar tests hain)
+      #   run: npm test
