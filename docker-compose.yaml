@@ -10,6 +10,8 @@ services:
       - REDIS_URL=redis://redis:6379
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/ecommerce_db
       - JWT_SECRET=supersecret123
+    networks:
+      - app-network
     depends_on:
       postgres:
         condition: service_healthy
@@ -20,6 +22,8 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
+    networks:
+      - app-network
 
   postgres:
     image: postgres:15-alpine
@@ -29,8 +33,14 @@ services:
       POSTGRES_DB: ecommerce_db
     ports:
       - "5432:5432"
+    networks:
+      - app-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
+
+networks:
+  app-network:
+    driver: bridge
